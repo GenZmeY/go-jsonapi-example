@@ -21,3 +21,6 @@ check-build:
 
 clean:
 	rm -rf $(BINDIR)
+
+run: check-build
+	$(BIN)

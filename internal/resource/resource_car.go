@@ -122,6 +122,10 @@ func (s CarResource) Create(obj interface{}, r api2go.Request) (api2go.Responder
 		return &Response{}, api2go.NewHTTPError(errors.New("Invalid instance given"), "Invalid instance given", http.StatusBadRequest)
 	}
 
+	if ok, httpErr := car.Verify(); !ok {
+		return &Response{}, httpErr
+	}
+
 	id := s.CarStorage.Insert(car)
 	car.ID = id
 
@@ -141,6 +145,10 @@ func (s CarResource) Update(obj interface{}, r api2go.Request) (api2go.Responder
 		return &Response{}, api2go.NewHTTPError(errors.New("Invalid instance given"), "Invalid instance given", http.StatusBadRequest)
 	}
 
+	if ok, httpErr := car.Verify(); !ok {
+		return &Response{}, httpErr
+	}
+
 	err := s.CarStorage.Update(car)
-	return &Response{Res: car, Code: http.StatusNoContent}, err
+	return &Response{Code: http.StatusOK}, err
 }

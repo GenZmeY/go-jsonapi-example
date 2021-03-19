@@ -8,9 +8,7 @@ type Response struct {
 
 func (r Response) Metadata() map[string]interface{} {
 	return map[string]interface{}{
-		"author":      "GenZmeY",
-		"license":     "wtfpl",
-		"license-url": "http://www.wtfpl.net",
+		"author": "GenZmeY",
 	}
 }
 
