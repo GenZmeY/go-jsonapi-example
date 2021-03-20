@@ -10,7 +10,7 @@
 
 ## List paginated cars:
 `curl -X GET 'http://localhost:8080/v1/cars?page\[offset\]=0&page\[limit\]=2'`
-## OR
+**OR**
 `curl -X GET 'http://localhost:8080/v1/cars?page\[number\]=1&page\[size\]=2'`
 
 ## Update:
