@@ -49,7 +49,7 @@ func (c Car) Verify() (bool, api2go.HTTPError) {
 	ok := len(verifyErrors) == 0
 
 	if !ok {
-		httpError := api2go.NewHTTPError(
+		httpError = api2go.NewHTTPError(
 			errors.New("Invalid content"),
 			"Invalid content",
 			http.StatusBadRequest)
