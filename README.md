@@ -3,7 +3,7 @@
 `make && make run`  
 
 ## Create a new car:
-`curl -X POST http://localhost:8080/v1/cars -d '{"data" : {"type" : "cars" , "attributes": {"brand" : "bmw", "model": "x5", "price": 999, "status": "OnTheWay"}}}'`  
+`curl -X POST http://localhost:8080/v1/cars -d '{"data" : {"type" : "cars" , "attributes": {"brand" : "bmw", "model": "x5", "price": 999, "status": "OnTheWay", "mileage": 0}}}'`  
 
 ## List cars:
 `curl -X GET http://localhost:8080/v1/cars`  

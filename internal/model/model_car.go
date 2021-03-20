@@ -10,11 +10,12 @@ import (
 )
 
 type Car struct {
-	ID     string `json:"-"`
-	Brand  string `json:"brand"`
-	Model  string `json:"model"`
-	Price  uint64 `json:"price"`
-	Status string `json:"status"` // OnTheWay, InStock, Sold, Discontinued
+	ID      string `json:"-"`
+	Brand   string `json:"brand"`
+	Model   string `json:"model"`
+	Price   uint64 `json:"price"`
+	Status  string `json:"status"`  // OnTheWay, InStock, Sold, Discontinued
+	Mileage int64  `json:"mileage"` // I suppose it should be made unsigned, but that's what the task says ¯\_(ツ)_/¯
 }
 
 func (c Car) Verify() (bool, api2go.HTTPError) {
