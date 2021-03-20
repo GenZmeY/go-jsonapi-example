@@ -42,7 +42,7 @@ func (c Car) Verify() (bool, api2go.HTTPError) {
 		newErr := newVerifyError(
 			"Invalid Attribute",
 			"attribute must be one of: OnTheWay, InStock, Sold, Discontinued",
-			"/data/attributes/brand")
+			"/data/attributes/status")
 		verifyErrors = append(verifyErrors, newErr)
 	}
 

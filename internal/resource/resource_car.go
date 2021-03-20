@@ -19,8 +19,8 @@ type CarResource struct {
 
 // FindAll to satisfy api2go data source interface
 func (s CarResource) FindAll(r api2go.Request) (api2go.Responder, error) {
-	var result []model.Car
 	cars := s.CarStorage.GetAll()
+	result := make([]model.Car, 0, len(cars))
 
 	for _, car := range cars {
 		result = append(result, *car)
@@ -106,7 +106,6 @@ func (s CarResource) PaginatedFindAll(r api2go.Request) (uint, api2go.Responder,
 }
 
 // FindOne to satisfy `api2go.DataSource` interface
-// this method should return the car with the given ID, otherwise an error
 func (s CarResource) FindOne(ID string, r api2go.Request) (api2go.Responder, error) {
 	car, err := s.CarStorage.GetOne(ID)
 	if err != nil {
