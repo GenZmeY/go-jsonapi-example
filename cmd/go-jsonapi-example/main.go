@@ -22,13 +22,12 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/juju/gnuflag"
+	"github.com/manyminds/api2go"
+
 	"go-jsonapi-example/internal/model"
 	"go-jsonapi-example/internal/resource"
 	"go-jsonapi-example/internal/storage"
-
-	"github.com/manyminds/api2go"
-
-	"github.com/juju/gnuflag"
 )
 
 func main() {
