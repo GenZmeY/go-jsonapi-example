@@ -3,7 +3,7 @@ package resource
 import (
 	"errors"
 	"net/http"
-	_ "sort"
+	"sort"
 	"strconv"
 
 	"go-jsonapi-example/internal/model"
@@ -23,24 +23,13 @@ func (s CarResource) FindAll(r api2go.Request) (api2go.Responder, error) {
 }
 
 // PaginatedFindAll can be used to load cars in chunks
-/*
 func (s CarResource) PaginatedFindAll(r api2go.Request) (uint, api2go.Responder, error) {
 	var (
-		result                      []model.Car
+		result                      storage.Cars
 		number, size, offset, limit string
-		keys                        []int
 	)
 	cars := s.CarStorage.GetAll()
-
-	for k := range cars {
-		i, err := strconv.ParseInt(k, 10, 64)
-		if err != nil {
-			return 0, &Response{}, err
-		}
-
-		keys = append(keys, int(i))
-	}
-	sort.Ints(keys)
+	sort.Sort(cars)
 
 	numberQuery, ok := r.QueryParams["page[number]"]
 	if ok {
@@ -75,7 +64,7 @@ func (s CarResource) PaginatedFindAll(r api2go.Request) (uint, api2go.Responder,
 			if i >= uint64(len(cars)) {
 				break
 			}
-			result = append(result, *cars[strconv.FormatInt(int64(keys[i]), 10)])
+			result = append(result, cars[i])
 		}
 	} else {
 		limitI, err := strconv.ParseUint(limit, 10, 64)
@@ -92,13 +81,13 @@ func (s CarResource) PaginatedFindAll(r api2go.Request) (uint, api2go.Responder,
 			if i >= uint64(len(cars)) {
 				break
 			}
-			result = append(result, *cars[strconv.FormatInt(int64(keys[i]), 10)])
+			result = append(result, cars[i])
 		}
 	}
 
 	return uint(len(cars)), &Response{Res: result}, nil
 }
-*/
+
 // FindOne to satisfy `api2go.DataSource` interface
 func (s CarResource) FindOne(ID string, r api2go.Request) (api2go.Responder, error) {
 	intID, err := strconv.ParseUint(ID, 10, 64)

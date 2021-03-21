@@ -45,7 +45,7 @@ func (s CarStorage) GetOne(id uint64) (model.Car, error) {
 		return *car, nil
 	}
 	s.mutex.RUnlock()
-	errMessage := fmt.Sprintf("Car for id %s not found", id)
+	errMessage := fmt.Sprintf("Car for id %d not found", id)
 	return model.Car{}, api2go.NewHTTPError(errors.New(errMessage), errMessage, http.StatusNotFound)
 }
 
@@ -63,7 +63,7 @@ func (s *CarStorage) Delete(id uint64) error {
 	defer s.mutex.Unlock()
 	_, exists := s.cars[id]
 	if !exists {
-		return fmt.Errorf("Car with id %s does not exist", id)
+		return fmt.Errorf("Car with id %d does not exist", id)
 	}
 	delete(s.cars, id)
 
@@ -75,7 +75,7 @@ func (s *CarStorage) Update(c model.Car) error {
 	defer s.mutex.Unlock()
 	_, exists := s.cars[c.ID]
 	if !exists {
-		return fmt.Errorf("Car with id %s does not exist", c.ID)
+		return fmt.Errorf("Car with id %d does not exist", c.ID)
 	}
 	s.cars[c.ID] = &c
 

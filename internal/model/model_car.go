@@ -77,6 +77,11 @@ func (c Car) GetID() string {
 
 // SetID to satisfy jsonapi.UnmarshalIdentifier interface
 func (c *Car) SetID(id string) error {
+	if id == "" {
+		c.ID = 0
+		return nil
+	}
+
 	intID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		return err
