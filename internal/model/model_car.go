@@ -3,14 +3,16 @@ package model
 import (
 	"errors"
 
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/manyminds/api2go"
 	"github.com/manyminds/api2go/jsonapi"
 )
 
 type Car struct {
-	ID      string `json:"-"`
+	ID      uint64 `json:"-"`
 	Brand   string `json:"brand"`
 	Model   string `json:"model"`
 	Price   uint64 `json:"price"`
@@ -70,12 +72,16 @@ func newVerifyError(title string, detail string, pointer string) api2go.Error {
 
 // GetID to satisfy jsonapi.MarshalIdentifier interface
 func (c Car) GetID() string {
-	return c.ID
+	return fmt.Sprintf("%d", c.ID)
 }
 
 // SetID to satisfy jsonapi.UnmarshalIdentifier interface
 func (c *Car) SetID(id string) error {
-	c.ID = id
+	intID, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		return err
+	}
+	c.ID = intID
 	return nil
 }
 

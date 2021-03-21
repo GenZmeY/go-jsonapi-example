@@ -3,7 +3,7 @@ package resource
 import (
 	"errors"
 	"net/http"
-	"sort"
+	_ "sort"
 	"strconv"
 
 	"go-jsonapi-example/internal/model"
@@ -19,17 +19,11 @@ type CarResource struct {
 
 // FindAll to satisfy api2go data source interface
 func (s CarResource) FindAll(r api2go.Request) (api2go.Responder, error) {
-	cars := s.CarStorage.GetAll()
-	result := make([]model.Car, 0, len(cars))
-
-	for _, car := range cars {
-		result = append(result, *car)
-	}
-
-	return &Response{Res: result}, nil
+	return &Response{Res: s.CarStorage.GetAll()}, nil
 }
 
 // PaginatedFindAll can be used to load cars in chunks
+/*
 func (s CarResource) PaginatedFindAll(r api2go.Request) (uint, api2go.Responder, error) {
 	var (
 		result                      []model.Car
@@ -104,10 +98,15 @@ func (s CarResource) PaginatedFindAll(r api2go.Request) (uint, api2go.Responder,
 
 	return uint(len(cars)), &Response{Res: result}, nil
 }
-
+*/
 // FindOne to satisfy `api2go.DataSource` interface
 func (s CarResource) FindOne(ID string, r api2go.Request) (api2go.Responder, error) {
-	car, err := s.CarStorage.GetOne(ID)
+	intID, err := strconv.ParseUint(ID, 10, 64)
+	if err != nil {
+		return &Response{}, api2go.NewHTTPError(err, err.Error(), http.StatusNotFound)
+	}
+
+	car, err := s.CarStorage.GetOne(intID)
 	if err != nil {
 		return &Response{}, api2go.NewHTTPError(err, err.Error(), http.StatusNotFound)
 	}
@@ -133,7 +132,10 @@ func (s CarResource) Create(obj interface{}, r api2go.Request) (api2go.Responder
 
 // Delete to satisfy `api2go.DataSource` interface
 func (s CarResource) Delete(id string, r api2go.Request) (api2go.Responder, error) {
-	err := s.CarStorage.Delete(id)
+	intID, err := strconv.ParseUint(id, 10, 64)
+	if err == nil {
+		err = s.CarStorage.Delete(intID)
+	}
 	return &Response{Code: http.StatusNoContent}, err
 }
 
